@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Project Quantum Lightning Talk</title>
+    <meta name="description" content="Possibly the most insightful presentation of all time" />
+
+    <link rel="stylesheet" href="decky.css">
+    <link rel="stylesheet" href="solarized-dark.css">
+    <script src="highlight.min.js"></script>
+  </head>
+  <body>
+
+    <section>
+      <h1>Project Quantum</h1>
+      <h2>The Future of Firefox</h2>
+    </section>
+
+    <section>
+      <img src="img/moz-logo.svg" style="max-width: 80vw;">
+    </section>
+
+    <section>
+      <img src="img/quantumleap.jpg" class="cover">
+      <h1 style="color: #fff; position: relative; z-index; 1;text-shadow: 0 0 .3em #093765">
+        THE FUTURE
+      </h1>
+    </section>
+
+    <section>
+      <img src="img/rust-logo-blk.svg">
+      <h2>Rust</h2>
+    </section>
+
+    <section>
+      <h4 style="text-align: left;text-indent: -.69ch; font-weight:300; max-width: 80%; line-height:1.4">
+        &ldquo;<b style="font-weight: 500;">Rust</b> is a systems programming language that
+        runs blazingly fast, prevents segfaults, and
+        guarantees thread safety.&rdquo;
+      </h4>
+    </section>
+
+    <section>
+      <img src="img/rust-logo-blk.svg">
+      <h2>Servo!</h2>
+    </section>
+
+    <section>
+      <img src="img/servo.png">
+      <h2>Servo!</h2>
+    </section>
+
+    <section>
+      <img src="img/voltron.png">
+    </section>
+
+    <section>
+      <h1>Quantum Compositor</h1>
+    </section>
+
+    <section>
+      <h1>Quantum CSS</h1>
+      <h2>&ldquo;Stylo&rdquo;</h2>
+    </section>
+
+    <section>
+      <h1>Quantum DOM</h1>
+    </section>
+
+    <section>
+      <h1>Quantum DOM</h1>
+    </section>
+
+    <section>
+      <h1>WebRender</h1>
+    </section>
+
+    <section>
+      <h4 style="text-align: left;text-indent: -.69ch; font-weight:300; max-width: 80%; line-height:1.4">
+        &ldquo;We've removed painting from the bottleneck in Servo&rdquo;
+      </h4>
+    </section>
+
+    <section>
+      <h1>Sure&hellip;<br>but when?</h1>
+    </section>
+
+    <section>
+      <img src="img/quantumleap.jpg" class="cover">
+      <h1 style="color: #fff; position: relative; z-index; 1;text-shadow: 0 0 .3em #093765">
+        THE FUTURE<br>
+        <div class="hide">IS COMING</div>
+      </h1>
+    </section>
+
+    <section>
+      <img src="img/quantumleap.jpg" class="cover">
+      <h1 style="color: #fff; position: relative; z-index; 1;text-shadow: 0 0 .3em #093765">
+        THE FUTURE<br>
+        IS COMING
+      </h1>
+    </section>
+
+    <section>
+      <h2 style="margin-bottom: 2rem;">Thanks!</h2>
+      <div>Twitter: <a href="https://twitter.com/potch">@potch</a></div>
+      <div>Rust: <a href="https://www.rust-lang.org/">rust-lang.org</a></div>
+      <div>Servo: <a href="https://www.servo.org/">servo.org</a></div>
+      <div>Quantum: <a href="https://wiki.mozilla.org/Quantum">wiki.mozilla.org/Quantum</a></div>
+    </section>
+
+    <footer>
+      <div class="progress talk-progress"></div>
+      <div class="progress time-progress"></div>
+    </footer>
+    <script src="decky.js"></script>
+    <script>
+
+      var els = document.querySelectorAll('code[data-src]');
+      Array.from(els).forEach(function (el) {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", function () {
+          el.innerHTML = this.responseText.replace('<', '&lt;', 'g');
+          hljs.highlightBlock(el);
+        });
+        xhr.open("GET", el.getAttribute('data-src'));
+        xhr.send();
+      });
+
+      var iframes = document.querySelectorAll('iframe');
+      iframes = Array.from(iframes);
+      iframes.forEach(function (i) {
+        var src = i.src;
+        i.setAttribute('data-src', src);
+        i.src = '';
+      });
+
+      var talkProgress = document.querySelector('.talk-progress');
+      var timeProgress = document.querySelector('.time-progress');
+      var sTime;
+      var timer;
+      var going = false;
+      decky.onSlideChange = function (n) {
+        if (n > 1 && !going) {
+          going = true;
+          timer = setInterval(update, 100);
+          sTime = Date.now();
+          console.log('starting timer');
+        }
+
+        var pct = n / decky.num * 100;
+        talkProgress.style.transform = 'translate(' + pct + '%, 0)';
+
+        iframes.forEach(function (i) {
+          i.src = '';
+        });
+
+        var f = document.querySelector('.active iframe');
+        if (f && window.top === window) {
+          f.src = f.getAttribute('data-src');
+        }
+      };
+      function update() {
+        var time = Math.min(100, ((Date.now() - sTime) / (15 * 60 * 1000)) * 100);
+        timeProgress.style.transform = 'translate(' + time + '%, 0)';
+      }
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
